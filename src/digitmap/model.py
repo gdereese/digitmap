@@ -1,12 +1,22 @@
-from typing import Iterable
+"""
+Object model for representing a digit map and the structure of its constituent pattern strings.
+"""
+
+from typing import Sequence
 from typing import Union
 
 
 class Element:
-    pass
+    """
+    Base class for elements of a digit map string.
+    """
 
 
 class Digit:
+    """
+    Represents a single DTMF digit (0-9).
+    """
+
     def __init__(self, value: str):
         if len(value) != 1 or not value.isdigit():
             raise ValueError("value must be a single-character string with a digit 0-9")
@@ -26,10 +36,18 @@ class Digit:
 
     @property
     def value(self) -> str:
+        """
+        Gets the DTMF digit value.
+        """
+
         return self._value
 
 
 class DtmfElement(Element):
+    """
+    Represents a specific DTMF digit or symbol.
+    """
+
     def __init__(self, value: str):
         if len(value) != 1 or value not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f", "#", "*"]:
             raise ValueError("value must be a single-character string with a digit 0-9, letter A-D/a-d, #, or *")
@@ -49,10 +67,19 @@ class DtmfElement(Element):
 
     @property
     def value(self) -> str:
+        """
+        Gets the DTMF symbol value.
+        """
+
         return self._value
 
 
 class TimerElement(Element):
+    """
+    Corresponds to a timer event captured into a dial string. This is typically used to indicate
+    that a VoIP gateway has timed out waiting for additional digits to be dialed by the caller.
+    """
+
     def __eq__(self, other):
         return (
             isinstance(other, self.__class__)
@@ -66,6 +93,10 @@ class TimerElement(Element):
 
 
 class WildcardElement(Element):
+    """
+    Digit map string element that requires a match to any DTMF digit (0-9).
+    """
+
     def __eq__(self, other):
         return (
             isinstance(other, self.__class__)
@@ -79,6 +110,10 @@ class WildcardElement(Element):
 
 
 class SubRange():
+    """
+    Requires a match to fall within a range of DTMF digits.
+    """
+
     def __init__(self, start: Digit = None, end: Digit = None):
         self.end = end
         self.start = start
@@ -101,7 +136,12 @@ RangeItem = Union[Digit, SubRange]
 
 
 class RangeElement(Element):
-    def __init__(self, items: Iterable[RangeItem]):
+    """
+    Digit map string element that requires a match to set of individual DTMF digits, or ranges
+    thereof.
+    """
+
+    def __init__(self, items: Sequence[RangeItem]):
         self._items = list(items)
 
     def __eq__(self, other):
@@ -117,11 +157,19 @@ class RangeElement(Element):
         return f"[{''.join(map(str, self._items))}]"
 
     @property
-    def items(self) -> Iterable[RangeItem]:
+    def items(self) -> Sequence[RangeItem]:
+        """
+        Gets the sequence of items included in the range.
+        """
+
         return self._items
 
 
 class PositionElement(Element):
+    """
+    Digit map string element that allows any number of occurrences of another specified element.
+    """
+
     def __init__(self, element: Element = None):
         self.element = element
 
@@ -139,7 +187,12 @@ class PositionElement(Element):
 
 
 class DigitMapString:
-    def __init__(self, elements: Iterable[Element]):
+    """
+    Made from one or more elements that indicate what sequence of DTMF digits or symbols that
+    correspond to a specific handling path in a VoIP gateway.
+    """
+
+    def __init__(self, elements: Sequence[Element]):
         self._elements = list(elements)
 
     def __eq__(self, other):
@@ -155,12 +208,20 @@ class DigitMapString:
         return ''.join(map(str, self._elements))
 
     @property
-    def elements(self) -> Iterable[Element]:
+    def elements(self) -> Sequence[Element]:
+        """
+        Gets the sequence of elements for this digit map string.
+        """
+
         return self._elements
 
 
 class DigitMap:
-    def __init__(self, strings: Iterable[DigitMapString]):
+    """
+    Defines patterns for all the valid dialing inputs that can be handled by a VoIP gateway.
+    """
+
+    def __init__(self, strings: Sequence[DigitMapString]):
         self._strings = list(strings)
 
     def __eq__(self, other):
@@ -178,5 +239,9 @@ class DigitMap:
         return f"({'|'.join(map(str, self._strings))})"
 
     @property
-    def strings(self) -> Iterable[DigitMapString]:
+    def strings(self) -> Sequence[DigitMapString]:
+        """
+        Gets the sequence of individual digit map strings.
+        """
+
         return self._strings

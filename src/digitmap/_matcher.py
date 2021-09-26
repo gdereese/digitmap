@@ -1,16 +1,36 @@
+# pylint: disable=missing-module-docstring
+
 import re
-from typing import Iterable
 from typing import NamedTuple
+from typing import Sequence
 
 from ._translator import translate
 
 
 class DigitMapResult(NamedTuple):
-    full_matches: Iterable[str]
-    partial_matches: Iterable[str]
+    """
+    Result of attempting to match a string of dialing inputs to a digit map.
+    """
+
+    full_matches: Sequence[str]
+    """
+    Sequence of digit map strings that were found to fully match the dial string.
+    """
+
+    partial_matches: Sequence[str]
+    """
+    Sequence of digit map strings that were found to partially match the dial string.
+    """
 
 
 def match(expr: str, dial_str: str) -> DigitMapResult:
+    """
+    Attempts to match a string of dialing input symbols to a digit map.
+
+    If at least one digit map string matches the dial string, a `DigitMapResult` object wil be
+    returned. Otherwise, if no matches could be made, the function returns `None`.
+    """
+
     string_patterns = translate(expr)
 
     full_matches = []

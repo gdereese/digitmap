@@ -58,6 +58,11 @@ class _TranslateToRegex(Transformer):
 
 
 def translate(expr: str) -> Iterable[str]:
+    """
+    Translates a digit map expression to an equivalent list of regular expressions. These regular
+    expressions are used to perform the actual logic for matching digit maps.
+    """
+
     parser = Lark.open("digitmap.lark", propagate_positions=True, rel_to=__file__)
     ast = parser.parse(expr)
 

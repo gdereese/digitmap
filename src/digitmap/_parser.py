@@ -65,7 +65,7 @@ class _TransformToObject(Transformer):
 
 def parse(expr: str) -> DigitMapString:
     """
-    Parses a DigitMap string into an equivalent object representation.
+    Parses a digit map expression into an equivalent object representation.
     """
 
     parser = Lark.open("digitmap.lark", rel_to=__file__)
