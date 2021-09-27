@@ -40,7 +40,7 @@ For example, the dial plan for a VoIP system might be defined as follows:
 
 The corresponding digit map for this dial plan would be:
 
-```shell
+```text
 (0T|00T|[1-7]xxx|8xxxxxxx|#xxxxxxx|*xx|91xxxxxxxxxx|9011x.T)
 ```
 
@@ -71,7 +71,7 @@ print(repr(digit_map))
 
 **Output:**
 
-```shell
+```text
 DigitMap([
     DigitMapString([
         WildcardElement(),
@@ -119,7 +119,7 @@ print(str(digit_map))
 
 **Output:**
 
-```shell
+```text
 (xxxxxxx|x11)
 ```
 
@@ -141,7 +141,7 @@ print(f"Partial matches: {result.exact_matches}")
 
 ***Output:**
 
-```shell
+```text
 Full matches: ['x11']
 Partial matches: ['xxxxxxx']
 ```
