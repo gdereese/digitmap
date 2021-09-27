@@ -49,8 +49,13 @@ class DtmfElement(Element):
     """
 
     def __init__(self, value: str):
-        if len(value) != 1 or value not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f", "#", "*"]:
-            raise ValueError("value must be a single-character string with a digit 0-9, letter A-D/a-d, #, or *")
+        if len(value) != 1 or value.upper() not in [
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "A", "B", "C", "D", "E", "F", "#", "*"
+        ]:
+            raise ValueError(
+                "value must be a single-character string with a digit 0-9, letter A-F, #, or *"
+            )
         self._value = value
 
     def __eq__(self, other):
