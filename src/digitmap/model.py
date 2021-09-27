@@ -1,3 +1,5 @@
+# pylint: disable=too-few-public-methods
+
 """
 Object model for representing a digit map and the structure of its constituent pattern strings.
 """
