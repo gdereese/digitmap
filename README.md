@@ -1,5 +1,8 @@
 # digitmap
 
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/gdereese/digitmap/CI/main?style=for-the-badge)
+![PyPI](https://img.shields.io/pypi/v/digitmap?style=for-the-badge)
+
 Package for working with digit maps - a syntax for indicating the sequence of digits that define
 a valid and complete dialing attempt by a VoIP telephone user.
 
